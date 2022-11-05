@@ -37,7 +37,7 @@ class mpqp_algorithm(Enum):
     geometric_parallel_exp = 'p geometric exp'
 
 
-def solve_mpqp(problem: MPQP_Program, algorithm: mpqp_algorithm = mpqp_algorithm.combinatorial) -> Solution:
+def solve_mpqp(problem: MPQP_Program, algorithm: mpqp_algorithm = mpqp_algorithm.combinatorial, num_cores: int = 1) -> Solution:
     """
     Takes a mpqp programming problem and solves it in a specified manner, In addition this solves MPLPs. The default
      solve algorithm is the Combinatorial algorithm by Gupta. et al.
@@ -52,10 +52,10 @@ def solve_mpqp(problem: MPQP_Program, algorithm: mpqp_algorithm = mpqp_algorithm
         solution = mpqp_combinatorial.solve(problem)
 
     if algorithm is mpqp_algorithm.combinatorial_parallel:
-        solution = mpqp_parrallel_combinatorial.solve(problem)
+        solution = mpqp_parrallel_combinatorial.solve(problem, num_cores)
 
     if algorithm is mpqp_algorithm.combinatorial_parallel_exp:
-        solution = mpqp_parallel_combinatorial_exp.solve(problem)
+        solution = mpqp_parallel_combinatorial_exp.solve(problem, num_cores)
 
     if algorithm is mpqp_algorithm.graph:
         solution = mpqp_graph.solve(problem)
@@ -64,19 +64,19 @@ def solve_mpqp(problem: MPQP_Program, algorithm: mpqp_algorithm = mpqp_algorithm
         solution = mpqp_graph.solve(problem, use_pruning=False)
 
     if algorithm is mpqp_algorithm.graph_parallel:
-        solution = mpqp_parrallel_graph.solve(problem)
+        solution = mpqp_parrallel_graph.solve(problem, num_cores)
 
     if algorithm is mpqp_algorithm.graph_parallel_exp:
-        solution = mpqp_parrallel_graph.solve(problem, use_pruning=False)
+        solution = mpqp_parrallel_graph.solve(problem, num_cores, use_pruning=False)
 
     if algorithm is mpqp_algorithm.geometric:
         solution = mpqp_geometric.solve(problem)
 
     if algorithm is mpqp_algorithm.geometric_parallel:
-        solution = mpqp_parallel_geometric.solve(problem)
+        solution = mpqp_parallel_geometric.solve(problem, num_cores)
 
     if algorithm is mpqp_algorithm.geometric_parallel_exp:
-        solution = mpqp_parallel_geometric_exp.solve(problem)
+        solution = mpqp_parallel_geometric_exp.solve(problem, num_cores)
 
     # check if there needs to be a flag thrown in the case of overlapping critical regions
     # happens if there are negative or zero eigen values for mpQP (kkt conditions can find a lot of saddle points)
