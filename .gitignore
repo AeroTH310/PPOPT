@@ -1,6 +1,7 @@
-.idea/
-.pytest_cache/
-.github/
+/.idea/
+/.pytest_cache/
+/.github/
+/tests/POP_mpMILP1/
+/tests/POP_mpMIQP1/
 
-# compiled Python code
-__pycache__
+*.pyc
